@@ -4,8 +4,6 @@
 #include <stdio.h>
 
 int counter = 1;
-int ptr_number = 2;
-char print_string[512] = {0};
 
 void emit_header_header(){
     printf("; ModuleID = 'putchar.c'\n");
@@ -16,9 +14,6 @@ void emit_header_header(){
 void emit_header(){
     printf("; Function Attrs: noinline nounwind optnone ssp uwtable\n\n");
     printf("define i32 @main() #0 {\n");
-    // sprintf(print_string, "%%%d = alloca i32*, align 8\n", counter);
-    // printf("%s", print_string);
-    // counter++;
 }
 
 void emit_footer(){
@@ -39,33 +34,19 @@ void emit_footer_footer(){
 void my_calloc(){
     // %1 = alloca i8*, align 8
     printf("    %%data = alloca i8*, align 8\n");
-    // counter++;
 
     // %2 = alloca i8*, align 8
     printf("    %%ptr = alloca i8*, align 8\n");
-    // counter++;
 
     // %3 = call i8* @calloc(i64 30000, i64 1)
     printf("    %%data_ptr = call i8* @calloc(i64 30000, i64 1)\n");
-    // ptr_number = counter;
-    // counter++;
 
     // store i8* %3, i8** %1, align 8
     printf("    store i8* %%data_ptr, i8** %%data, align 8\n");
-    // counter++;
-
-    // %4 = load i8*, i8** %1, align 8
-    // printf("%%%d = load i8*, i8** %%data, align 8\n", counter);
 
     // store i8* %4, i8** %2, align 8
     printf("    store i8* %%data_ptr, i8** %%ptr, align 8\n");
-    // counter++;
 
-    // %5 = load i8*, i8** %1, align 8
-    // printf("%%%d = load i8*, i8** %%data, align 8\n", counter);
-
-    // call void @free(i8* %5)
-    // printf("call void @free(i8* %%%d)\n", counter);
 }
 
 
@@ -79,7 +60,6 @@ void emit_move_ptr(int p1_or_m1){
 
     // %3 = getelementptr inbounds i32, i32* %2, i32 -1
     printf("    %%%d = getelementptr inbounds i8, i8* %%%d, i32 %d\n", counter, counter - 1, p1_or_m1);
-
     // store i32* %3, i32** %1, align 8
     printf("    store i8* %%%d, i8** %%ptr, align 8\n", counter);
     counter++;
@@ -93,14 +73,13 @@ void emit_add(int p1_or_m1){
     // %3 = load i32*, i32** %1, align 8
     printf("    %%%d = load i8*, i8** %%ptr, align 8\n", counter);
     counter++;
+
     // %4 = load i32, i32* %3, align 4
     printf("    %%%d = load i8, i8* %%%d, align 1\n", counter, counter - 1);
     counter++;
 
     // %5 = add nsw i32 %4, 1
     printf("    %%%d = add nsw i8 %%%d, %d\n", counter, counter - 1, p1_or_m1);
-    // counter++;
-
     // store i32 %5, i32* %3, align 4
     printf("    store i8 %%%d, i8* %%%d, align 1\n", counter, counter - 2);
     counter++;
@@ -135,7 +114,6 @@ void emit_putcher_function(){
 
 int main(){
     char c;
-    //ここはheader
     emit_header_header();
     emit_header();
     my_calloc();
@@ -145,26 +123,41 @@ int main(){
                 printf("    ; %c\n", c);
                 emit_move_ptr(1);
                 break;
+
             case '<':
                 printf("    ; %c\n", c);
                 emit_move_ptr(-1);
                 break;
+
             case '+':
                 printf("    ; %c\n", c);
                 emit_add(1);
                 break;
+
             case '-':
                 printf("    ; %c\n", c);
                 emit_add(-1);
                 break;
+
             case '.':
                 printf("    ; %c\n", c);
                 emit_put();
                 break;
+
+            case ',':
+                printf("    ; %c\n", c);
+                break;
+
+            case '[':
+                printf("    ; %c\n", c);
+                break;
+
+            case ']':
+                printf("    ; %c\n", c);
+                break;
         }
     }
 
-    //ここはfooter
     emit_footer();
     emit_putcher_function();
     emit_footer_footer();
