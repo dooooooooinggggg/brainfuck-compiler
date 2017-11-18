@@ -71,46 +71,51 @@ void my_calloc(){
 
 
 void emit_move_ptr(int p1_or_m1){
-    counter++;
+    // counter++;
 
     // %2 = load i32*, i32** %1, align 8
-    printf("%%%d = load i32*, i32** %%%d, align 8\n", counter, 1);
+    printf("%%%d = load i8*, i8s** %%%d, align 8\n", counter, 1);
     counter++;
 
     // %3 = getelementptr inbounds i32, i32* %2, i32 -1
-    printf("%%%d = getelementptr inbounds i32, i32* %%%d, i32 %d\n", counter, counter - 1, p1_or_m1);
+    printf("%%%d = getelementptr inbounds i8, i8* %%%d, i32 %d\n", counter, counter - 1, p1_or_m1);
 
     // store i32* %3, i32** %1, align 8
-    printf("store i32* %%%d, i32** %%ptr, align 8\n", counter);
+    printf("store i8* %%%d, i8** %%ptr, align 8\n", counter);
 
 }
 
 void emit_add(int p1_or_m1){
-    counter++;
+    // counter++;
 
 
     // %3 = load i32*, i32** %1, align 8
-    printf("%%%d = load i32*, i32** %%ptr, align 8\n", counter);
+    printf("%%%d = load i8*, i8** %%ptr, align 8\n", counter);
     counter++;
     // %4 = load i32, i32* %3, align 4
-    printf("%%%d = load i32, i32* %%%d, align 4\n", counter, counter - 1);
+    printf("%%%d = load i8, i8* %%%d, align 1\n", counter, counter - 1);
     counter++;
 
     // %5 = add nsw i32 %4, 1
-    printf("%%%d = add nsw i32 %%%d, %d\n", counter, counter - 1, p1_or_m1);
+    printf("%%%d = add nsw i8 %%%d, %d\n", counter, counter - 1, p1_or_m1);
+    // counter++;
 
     // store i32 %5, i32* %3, align 4
-    printf("store i32 %%%d, i32* %%%d, align 4\n", counter, counter - 2);
+    printf("store i8 %%%d, i8* %%%d, align 1\n", counter, counter - 2);
+    counter++;
 }
 
 void emit_put(){
-    counter++;
+    // counter++;
 
     // %3 = load i32*, i32** %1, align 8
-    printf("%%%d = load i32*, i32** %%%d, align 8\n", counter, 1);
+    printf("%%%d = load i8*, i8** %%ptr, align 8\n", counter);
     counter++;
     // %4 = load i32, i32* %3, align 4
-    printf("%%%d = load i32, i32* %%%d, align 4\n", counter, counter - 1);
+    printf("%%%d = load i8, i8* %%%d, align 1\n", counter, counter - 1);
+    counter++;
+
+    printf("%%%d = sext i8 %%%d to i32\n", counter, counter - 1);
     counter++;
 
     // %5 = call i32 @putchar(i32 %4)
