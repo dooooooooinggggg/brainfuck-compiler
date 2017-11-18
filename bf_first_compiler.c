@@ -35,6 +35,41 @@ void emit_footer_footer(){
     printf("!2 = !{!\"clang version 6.0.0 (https://llvm.org/git/clang.git 68e041468bfb4a364acdfa32abb0c7e38cfb938e) (https://llvm.org/git/llvm.git 06ded7390f85773afa7424d80d61a4a82ac19689)\"}\n");
 }
 
+
+void my_calloc(){
+    // %1 = alloca i8*, align 8
+    printf("%%data = alloca i8*, align 8\n");
+    // counter++;
+
+    // %2 = alloca i8*, align 8
+    printf("%%ptr = alloca i8*, align 8\n");
+    // counter++;
+
+    // %3 = call i8* @calloc(i64 30000, i64 1)
+    printf("%%data_ptr = call i8* @calloc(i64 30000, i64 1)\n");
+    // ptr_number = counter;
+    // counter++;
+
+    // store i8* %3, i8** %1, align 8
+    printf("store i8* %%data_ptr, i8** %%data, align 8\n");
+    // counter++;
+
+    // %4 = load i8*, i8** %1, align 8
+    // printf("%%%d = load i8*, i8** %%data, align 8\n", counter);
+
+    // store i8* %4, i8** %2, align 8
+    printf("store i8* %%data_ptr, i8** %%ptr, align 8\n");
+    // counter++;
+
+    // %5 = load i8*, i8** %1, align 8
+    // printf("%%%d = load i8*, i8** %%data, align 8\n", counter);
+
+    // call void @free(i8* %5)
+    // printf("call void @free(i8* %%%d)\n", counter);
+}
+
+
+
 void emit_move_ptr(int p1_or_m1){
     counter++;
 
@@ -46,7 +81,7 @@ void emit_move_ptr(int p1_or_m1){
     printf("%%%d = getelementptr inbounds i32, i32* %%%d, i32 %d\n", counter, counter - 1, p1_or_m1);
 
     // store i32* %3, i32** %1, align 8
-    printf("store i32* %%%d, i32** %%%d, align 8\n", counter, counter - 2);
+    printf("store i32* %%%d, i32** %%ptr, align 8\n", counter);
 
 }
 
@@ -55,7 +90,7 @@ void emit_add(int p1_or_m1){
 
 
     // %3 = load i32*, i32** %1, align 8
-    printf("%%%d = load i32*, i32** %%%d, align 8\n", counter, 1);
+    printf("%%%d = load i32*, i32** %%ptr, align 8\n", counter);
     counter++;
     // %4 = load i32, i32* %3, align 4
     printf("%%%d = load i32, i32* %%%d, align 4\n", counter, counter - 1);
@@ -88,38 +123,8 @@ void emit_putcher_function(){
     printf("declare void @free(i8*)\n");
 }
 
-void my_calloc(){
-    // %1 = alloca i8*, align 8
-    printf("%%%d = alloca i8*, align 8\n", counter);
-    counter++;
 
-    // %2 = alloca i8*, align 8
-    printf("%%%d = alloca i8*, align 8\n", counter);
-    counter++;
 
-    // %3 = call i8* @calloc(i64 30000, i64 1)
-    printf("%%%d = call i8* @calloc(i64 30000, i64 1)\n", counter);
-    // ptr_number = counter;
-    // counter++;
-
-    // store i8* %3, i8** %1, align 8
-    printf("store i8* %%%d, i8** %%%d, align 8\n", counter, ptr_number);
-    counter++;
-
-    // %4 = load i8*, i8** %1, align 8
-    printf("%%%d = load i8*, i8** %%%d, align 8\n", counter, ptr_number);
-
-    // store i8* %4, i8** %2, align 8
-    printf("store i8* %%%d, i8** %%%d, align 8\n", counter, counter - 2);
-    counter++;
-
-    // %5 = load i8*, i8** %1, align 8
-    printf("%%%d = load i8*, i8** %%%d, align 8\n", counter, ptr_number);
-
-    // call void @free(i8* %5)
-    printf("call void @free(i8* %%%d)\n", counter);
-
-}
 
 int main(){
     char c;
