@@ -74,7 +74,7 @@ void emit_move_ptr(int p1_or_m1){
     // counter++;
 
     // %2 = load i32*, i32** %1, align 8
-    printf("%%%d = load i8*, i8s** %%%d, align 8\n", counter, 1);
+    printf("%%%d = load i8*, i8** %%ptr, align 8\n", counter);
     counter++;
 
     // %3 = getelementptr inbounds i32, i32* %2, i32 -1
@@ -82,6 +82,7 @@ void emit_move_ptr(int p1_or_m1){
 
     // store i32* %3, i32** %1, align 8
     printf("store i8* %%%d, i8** %%ptr, align 8\n", counter);
+    counter++;
 
 }
 
@@ -120,6 +121,7 @@ void emit_put(){
 
     // %5 = call i32 @putchar(i32 %4)
     printf("%%%d = call i32 @putchar(i32 %%%d)\n", counter, counter - 1);
+    counter++;
 }
 
 void emit_putcher_function(){
