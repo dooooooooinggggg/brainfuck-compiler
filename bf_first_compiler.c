@@ -103,6 +103,18 @@ void emit_put(){
     counter++;
 }
 
+void emit_comma(){
+
+}
+
+void emit_while_begin(){
+
+}
+
+void emit_while_end(){
+
+}
+
 void emit_putcher_function(){
     printf("declare i32 @putchar(i32) #1\n");
     printf("declare i8* @calloc(i64, i64)\n");
@@ -147,14 +159,17 @@ int main(){
 
             case ',':
                 printf("    ; %c\n", c);
+                emit_comma();
                 break;
 
             case '[':
                 printf("    ; %c\n", c);
+                emit_while_begin();
                 break;
 
             case ']':
                 printf("    ; %c\n", c);
+                emit_while_end();
                 break;
         }
     }
